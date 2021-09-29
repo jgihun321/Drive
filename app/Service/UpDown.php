@@ -48,10 +48,24 @@ class UpDown{
         //echo $path;
         $path = "/media/jgihun321/".$path;
         $file_name = pathinfo($path)["basename"];
+        $file_name = iconv("UTF-8","cp949//IGNORE", $file_name);
+
+        //$path = iconv("UTF-8","CP949",$path);
+        //$file_name = iconv("UTF-8","CP949",$file_name);
 
         $ext = strtolower(substr($file_name, strrpos($file_name, '.') + 1));
 
-        echo $ext;
+        //echo $ext;
+
+
+
+        set_time_limit(0);
+        $chunksize = 5 * (1024 * 1024);
+
+        $size = intval(sprintf("%u", filesize($path)));
+
+
+        //echo $ext;
 
         switch($ext){
             case("mp4"):
@@ -59,7 +73,7 @@ class UpDown{
             case("wmv"):
             case("mov"):
             case("mkv"):
-                echo 123;
+                //echo 123;
 
         }
 
@@ -68,10 +82,15 @@ class UpDown{
 
         $size = intval(sprintf("%u", filesize($path)));
 
-        header('Content-Type: application/octet-stream');
+        header("Content-type: application/octet-stream");
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: '.$size);
-        header('Content-Disposition: attachment;filename="'.$file_name.'"');
+        //header("Content-Disposition: attachment; filename*=UTF-8''".rawurlencode($file_name));
+        Header("Cache-Control: cache,must-revalidate");
+        header("Pragma: cache");
+        header("Expires: 0");
+
+
 
         if($size > $chunksize)
         {
