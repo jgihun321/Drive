@@ -17,6 +17,7 @@ class UpDown{
         $path = "/media/jgihun321/".$path;
 
         //echo $path;
+        //GIT TEST
         if ($files = $request->file('file')) {
 
             //store file into document folder
